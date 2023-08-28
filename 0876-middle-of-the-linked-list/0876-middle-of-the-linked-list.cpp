@@ -8,35 +8,27 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-class Solution
-{
-
+class Solution {
 public:
-    int getLength(ListNode* head)
-    {
-        int count =0;
-        ListNode* temp = head;
-        while(temp!=NULL)
-        {
-            count++;
-            temp = temp->next;
-        }
-        return count;
-    }
-    
-public:
+    // thsi is slow fast technique
     ListNode* middleNode(ListNode* head) {
-       int length =  getLength(head);
-        int mid = (length/2)+1;
-        ListNode*  traceNode = head;
-        // now travese the ll till mid
-        int trace = 0;
-        while(mid-trace-1!=0)
+        if(head == NULL)
+            return NULL;
+        if(head->next ==NULL)
+            return head;
+        if(head->next->next == NULL)
+            return head->next;
+        ListNode* slow = head;
+        ListNode* fast = head-> next;
+        while(fast!=NULL)
         {
-            trace++;
-            traceNode = traceNode->next;
+            fast=fast->next;
+            if(fast!=NULL)
+            {
+                fast=fast->next;
+            }
+            slow = slow->next;
         }
-        return traceNode;
+        return slow;
     }
-    
 };
