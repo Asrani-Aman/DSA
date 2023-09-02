@@ -1,4 +1,3 @@
-
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -9,37 +8,41 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-
- class Solution {
+class Solution {
 public:
-    ListNode* reverseKGroup(ListNode* head, int k) {
-        ListNode* current = head;
-        int count = 0;
 
-        // Count the number of nodes in the current group
-        while (current != nullptr && count < k) {
-            current = current->next;
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode* temp = head;
+        ListNode* ans = nullptr;
+        int listitems = 0;
+        while(temp !=nullptr)
+        {
+            listitems++;
+            temp=temp->next;
+        }
+        // base condition
+        if(listitems < k )
+        {
+            //return ans;
+            return head;
+        }
+    
+        int count = 0;
+        ListNode* current = head;
+        ListNode* prev =nullptr;
+
+        while(count < k)
+        {
+            ListNode* forward = current->next;
+          //  forward->next = current;
+            current->next = prev;
+            if(prev==nullptr) ans  = current;
+            prev = current;
+            current = forward;
             count++;
         }
-
-        // If there are at least k nodes in the current group, reverse them
-        if (count == k) {
-            current = reverseKGroup(current, k); // Reverse the next k nodes recursively
-
-            // Reverse the current group of k nodes
-            while (count > 0) {
-                ListNode* next = head->next;
-                head->next = current;
-                current = head;
-                head = next;
-                count--;
-            }
-
-            // 'current' now points to the new head of the reversed group
-            return current;
-        }
-
-        // If there are less than k nodes, no need to reverse, return the head
-        return head;
+      //  reverseKGroup(current , k);
+        head->next = reverseKGroup(current, k);
+        return prev;
     }
 };
